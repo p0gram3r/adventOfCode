@@ -6,15 +6,22 @@ import java.util.List;
 import lombok.SneakyThrows;
 import lombok.val;
 
+
 public class AdventOfCode2021 {
 
     public static void main(String[] args) {
-        Puzzle puzzle = new Day03B();
+        Puzzle puzzle = new Day03();
 
         val inputFileName = guessInputFileName(puzzle);
         val lines = getPuzzleInput(inputFileName);
 
-        System.out.println(puzzle.getSolution(lines));
+        System.out.println("Solution to part A:");
+        System.out.println(puzzle.solutionA(lines));
+
+        System.out.println();
+
+        System.out.println("Solution to part B:");
+        System.out.println(puzzle.solutionB(lines));
     }
 
     @SneakyThrows
@@ -27,8 +34,7 @@ public class AdventOfCode2021 {
     }
 
     static String guessInputFileName(Puzzle puzzle) {
-        String className = puzzle.getClass().getName();
-        return className.substring(0, className.length() - 1).toLowerCase() + ".txt";
+        return puzzle.getClass().getName().toLowerCase() + ".txt";
     }
 }
 

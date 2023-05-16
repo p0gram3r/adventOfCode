@@ -2,6 +2,7 @@ import java.util.List;
 
 interface Puzzle {
 
-    String getSolution(List<String> input);
+    long solutionA(List<String> input);
 
+    long solutionB(List<String> input);
 }
