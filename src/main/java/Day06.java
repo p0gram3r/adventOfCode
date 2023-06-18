@@ -46,7 +46,7 @@ public class Day06 implements Puzzle {
             population = newPopulation;
             sw.stop();
 
-            log.info("start age: {}, day: {}, population size: {}, duration: {} ms", timer, day, population.size(), sw.getTime());
+//            log.info("start age: {}, day: {}, population size: {}, duration: {} ms", timer, day, population.size(), sw.getTime());
         }
         return population.size();
     }
