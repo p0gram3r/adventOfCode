@@ -10,11 +10,13 @@ class AdventOfCode2021Test {
 
     @ParameterizedTest
     @CsvSource({
-            "Day05,       5,         12",
-            "Day04,    4512,       1924",
-            "Day03,     198,        230",
-            "Day02,     150,        900",
-            "Day01,       7,          5",
+//            "Day06,    5934, 26984457539",
+            "Day06,    5934,           0",
+            "Day05,       5,          12",
+            "Day04,    4512,        1924",
+            "Day03,     198,         230",
+            "Day02,     150,         900",
+            "Day01,       7,           5",
     })
     @SneakyThrows
     void testPuzzleSolutions(String puzzleName, long solutionA, long solutionB) {
