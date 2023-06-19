@@ -6,11 +6,10 @@ import java.util.List;
 import lombok.SneakyThrows;
 import lombok.val;
 
-
 public class AdventOfCode2021 {
 
     public static void main(String[] args) {
-        Puzzle puzzle = new Day07();
+        Puzzle puzzle = new Day08();
 
         val inputFileName = guessInputFileName(puzzle);
         val lines = getPuzzleInput(inputFileName);
