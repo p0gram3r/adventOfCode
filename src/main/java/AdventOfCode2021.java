@@ -9,7 +9,7 @@ import lombok.val;
 public class AdventOfCode2021 {
 
     public static void main(String[] args) {
-        Puzzle puzzle = new Day09();
+        Puzzle puzzle = new Day10();
 
         val inputFileName = guessInputFileName(puzzle);
         val lines = getPuzzleInput(inputFileName);
