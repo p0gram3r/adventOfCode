@@ -1,3 +1,4 @@
+import com.google.auto.service.AutoService;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -8,6 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
+@AutoService(Puzzle.class)
 public class Day09 implements Puzzle {
     @Override
     public long solutionA(List<String> input) {
@@ -36,7 +38,7 @@ public class Day09 implements Puzzle {
                 .sorted(reverseSizeComparator)
                 .limit(3)
                 .map(Basin::size)
-                .reduce(1, (l, i)  -> l * i);
+                .reduce(1, (l, i) -> l * i);
     }
 
     private boolean isCoordinatePartOfAnyBasin(Coordinate c, Collection<Basin> allBasins) {

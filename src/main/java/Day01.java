@@ -1,7 +1,9 @@
+import com.google.auto.service.AutoService;
 import java.util.List;
 import java.util.function.BiFunction;
 
-class Day01 implements Puzzle {
+@AutoService(Puzzle.class)
+public class Day01 implements Puzzle {
 
     @Override
     public long solutionA(List<String> input) {

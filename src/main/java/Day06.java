@@ -1,13 +1,13 @@
+import com.google.auto.service.AutoService;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 
-@Slf4j
+@AutoService(Puzzle.class)
 public class Day06 implements Puzzle {
     @Override
     public long solutionA(List<String> input) {

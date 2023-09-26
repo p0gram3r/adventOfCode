@@ -1,3 +1,4 @@
+import com.google.auto.service.AutoService;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -5,6 +6,7 @@ import java.util.Optional;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+@AutoService(Puzzle.class)
 public class Day10 implements Puzzle {
     @Override
     public long solutionA(List<String> input) {
@@ -111,7 +113,7 @@ public class Day10 implements Puzzle {
                 }
             }
             LinkedList<Character> autoCompletedTokens = new LinkedList<>();
-            while(!chunks.isEmpty()) {
+            while (!chunks.isEmpty()) {
                 char startToken = chunks.pop();
                 autoCompletedTokens.add(closeChunk(startToken));
             }
@@ -120,7 +122,7 @@ public class Day10 implements Puzzle {
 
         static char closeChunk(char startToken) {
             return switch (startToken) {
-                case '(' ->')';
+                case '(' -> ')';
                 case '[' -> ']';
                 case '{' -> '}';
                 case '<' -> '>';

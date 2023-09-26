@@ -1,7 +1,9 @@
+import com.google.auto.service.AutoService;
 import java.util.List;
 import lombok.val;
 
-class Day02 implements Puzzle {
+@AutoService(Puzzle.class)
+public class Day02 implements Puzzle {
 
     @Override
     public long solutionA(List<String> input) {

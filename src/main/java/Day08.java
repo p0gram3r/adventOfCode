@@ -1,3 +1,4 @@
+import com.google.auto.service.AutoService;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 import lombok.Value;
 import lombok.val;
 
+@AutoService(Puzzle.class)
 public class Day08 implements Puzzle {
     @Override
     public long solutionA(List<String> input) {

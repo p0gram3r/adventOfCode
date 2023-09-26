@@ -1,6 +1,6 @@
 import java.util.List;
 
-interface Puzzle {
+public interface Puzzle {
 
     long solutionA(List<String> input);
 

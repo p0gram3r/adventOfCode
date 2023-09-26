@@ -1,7 +1,9 @@
+import com.google.auto.service.AutoService;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+@AutoService(Puzzle.class)
 public class Day05 implements Puzzle {
     @Override
     public long solutionA(List<String> input) {

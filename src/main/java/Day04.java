@@ -1,3 +1,4 @@
+import com.google.auto.service.AutoService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -7,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.val;
 
-class Day04 implements Puzzle {
+@AutoService(Puzzle.class)
+public class Day04 implements Puzzle {
 
     @Override
     public long solutionA(List<String> input) {
