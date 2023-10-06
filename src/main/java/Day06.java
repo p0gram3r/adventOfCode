@@ -1,62 +1,54 @@
 import com.google.auto.service.AutoService;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import lombok.SneakyThrows;
-import org.apache.commons.lang3.time.StopWatch;
+import java.util.stream.IntStream;
 
 @AutoService(Puzzle.class)
 public class Day06 implements Puzzle {
+
     @Override
     public long solutionA(List<String> input) {
-        return extracted(input, 80);
+        return countTotalPopulation(input, 80);
     }
 
+    @Override
+    public long solutionB(List<String> input) {
+        return countTotalPopulation(input, 256);
+    }
 
-    private static long extracted(List<String> input, int totalDays) {
-        Map<Integer, Integer> populationPerTimer = new HashMap<>();
+    private static long countTotalPopulation(List<String> input, int totalDays) {
+        var population = initializePopulation(input);
 
-        return Arrays.stream(input.get(0).split(","))
-                .map(Integer::parseInt)
-                .map(timer -> populationPerTimer.computeIfAbsent(timer, t -> populate(t, totalDays)))
-                .map(Integer::longValue)
+        population = populate(population, totalDays);
+
+        return population.values().stream()
                 .reduce(0L, Long::sum);
     }
 
-    private static int populate(int timer, int totalDays) {
-        List<Integer> population = List.of(timer);
-        StopWatch sw = StopWatch.create();
+    private static Map<Integer, Long> initializePopulation(List<String> input) {
+        Map<Integer, Long> populationPerAge = new LinkedHashMap<>();
+        IntStream.range(0, 9).forEach(age -> populationPerAge.put(age, 0L));
 
+        Arrays.stream(input.get(0).split(","))
+                .map(Integer::parseInt)
+                .forEach(age -> populationPerAge.put(age, populationPerAge.get(age) + 1));
+
+        return populationPerAge;
+    }
+
+    private static Map<Integer, Long> populate(Map<Integer, Long> population, int totalDays) {
         for (int day = 0; day < totalDays; day++) {
+            var oldPopulation = population;
+            var newPopulation = new LinkedHashMap<Integer, Long>();
+            IntStream.rangeClosed(0, 7).forEach(age -> newPopulation.put(age, oldPopulation.get(age + 1)));
+            newPopulation.put(6, oldPopulation.get(0) + oldPopulation.get(7));
+            newPopulation.put(8, oldPopulation.get(0));
 
-            sw.reset();
-            sw.start();
-
-            List<Integer> newPopulation = new LinkedList<>();
-            population.forEach(t -> {
-                if (t == 0) {
-                    newPopulation.add(6);
-                    newPopulation.add(8);
-                } else {
-                    newPopulation.add(t - 1);
-                }
-            });
             population = newPopulation;
-            sw.stop();
-
-//            log.info("start age: {}, day: {}, population size: {}, duration: {} ms", timer, day, population.size(), sw.getTime());
         }
-        return population.size();
+        return population;
     }
-
-    @Override
-    @SneakyThrows
-    public long solutionB(List<String> input) {
-        // TODO the current approach is neither fast nor efficient enough!
-        return 0L;
-    }
-
 
 }
