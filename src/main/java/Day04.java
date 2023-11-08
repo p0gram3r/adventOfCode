@@ -9,10 +9,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.val;
 
 @AutoService(Puzzle.class)
-public class Day04 implements Puzzle {
+public class Day04 implements Puzzle<Long, Long> {
 
     @Override
-    public long solutionA(List<String> input) {
+    public Long solutionA(List<String> input) {
         String numbersDrawn = input.get(0);
         val boards = parseBingoBoards(input);
 
@@ -30,7 +30,7 @@ public class Day04 implements Puzzle {
     }
 
     @Override
-    public long solutionB(List<String> input) {
+    public Long solutionB(List<String> input) {
         String numbersDrawn = input.get(0);
         val boards = parseBingoBoards(input);
 

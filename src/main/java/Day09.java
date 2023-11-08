@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @AutoService(Puzzle.class)
-public class Day09 implements Puzzle {
+public class Day09 implements Puzzle<Integer, Integer> {
     @Override
-    public long solutionA(List<String> input) {
+    public Integer solutionA(List<String> input) {
         HeightMap map = HeightMap.of(input);
 
         return map.coordinateStream()
@@ -22,7 +22,7 @@ public class Day09 implements Puzzle {
     }
 
     @Override
-    public long solutionB(List<String> input) {
+    public Integer solutionB(List<String> input) {
         HeightMap map = HeightMap.of(input);
 
         Collection<Basin> allBasins = new LinkedList<>();

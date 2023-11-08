@@ -8,9 +8,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @AutoService(Puzzle.class)
-public class Day07 implements Puzzle {
+public class Day07 implements Puzzle<Integer, Integer> {
     @Override
-    public long solutionA(List<String> input) {
+    public Integer solutionA(List<String> input) {
         List<Integer> positions = parsePositions(input.get(0));
         ConsumptionTable table = new ConsumptionTable(positions);
 //        System.out.println(table);
@@ -20,7 +20,7 @@ public class Day07 implements Puzzle {
 
 
     @Override
-    public long solutionB(List<String> input) {
+    public Integer solutionB(List<String> input) {
         List<Integer> positions = parsePositions(input.get(0));
         ConsumptionTable table = new ConsumptionTable(positions, true);
 

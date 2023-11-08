@@ -3,10 +3,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AutoService(Puzzle.class)
-public class Day03 implements Puzzle {
+public class Day03 implements Puzzle<Long, Long> {
 
     @Override
-    public long solutionA(List<String> input) {
+    public Long solutionA(List<String> input) {
         int arrayLength = input.get(0).length();
         int[] ones = new int[arrayLength];
         int[] zeros = new int[arrayLength];
@@ -30,7 +30,7 @@ public class Day03 implements Puzzle {
 
 
     @Override
-    public long solutionB(List<String> input) {
+    public Long solutionB(List<String> input) {
         String oxyString = determineRating(input, true);
         String co2String = determineRating(input, false);
 

@@ -4,10 +4,10 @@ import java.util.stream.IntStream;
 import lombok.Value;
 
 @AutoService(Puzzle.class)
-public class Day11 implements Puzzle {
+public class Day11 implements Puzzle<Integer, Integer> {
 
     @Override
-    public long solutionA(List<String> input) {
+    public Integer solutionA(List<String> input) {
         FlashMap map = FlashMap.of(input);
 
         return IntStream.range(0, 100)
@@ -16,7 +16,7 @@ public class Day11 implements Puzzle {
     }
 
     @Override
-    public long solutionB(List<String> input) {
+    public Integer solutionB(List<String> input) {
         FlashMap map = FlashMap.of(input);
 
         int allFlashCount = map.height * map.width;

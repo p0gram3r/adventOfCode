@@ -7,9 +7,9 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 @AutoService(Puzzle.class)
-public class Day10 implements Puzzle {
+public class Day10 implements Puzzle<Integer, Long> {
     @Override
-    public long solutionA(List<String> input) {
+    public Integer solutionA(List<String> input) {
         return input.stream()
                 .map(NaviSubSystemLine::new)
                 .map(NaviSubSystemLine::firstCorruptedChar)
@@ -21,7 +21,7 @@ public class Day10 implements Puzzle {
     }
 
     @Override
-    public long solutionB(List<String> input) {
+    public Long solutionB(List<String> input) {
         List<Long> scores = input.stream()
                 .map(NaviSubSystemLine::new)
                 .filter(NaviSubSystemLine::isNotCorrupt)

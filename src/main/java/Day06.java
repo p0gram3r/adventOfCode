@@ -6,15 +6,15 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 @AutoService(Puzzle.class)
-public class Day06 implements Puzzle {
+public class Day06 implements Puzzle<Long, Long> {
 
     @Override
-    public long solutionA(List<String> input) {
+    public Long solutionA(List<String> input) {
         return countTotalPopulation(input, 80);
     }
 
     @Override
-    public long solutionB(List<String> input) {
+    public Long solutionB(List<String> input) {
         return countTotalPopulation(input, 256);
     }
 

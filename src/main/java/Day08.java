@@ -12,9 +12,9 @@ import lombok.Value;
 import lombok.val;
 
 @AutoService(Puzzle.class)
-public class Day08 implements Puzzle {
+public class Day08 implements Puzzle<Long, Long> {
     @Override
-    public long solutionA(List<String> input) {
+    public Long solutionA(List<String> input) {
         return input.stream()
                 .map(this::parseOutputValues)
                 .flatMap(Collection::stream)
@@ -29,7 +29,7 @@ public class Day08 implements Puzzle {
     }
 
     @Override
-    public long solutionB(List<String> input) {
+    public Long solutionB(List<String> input) {
         return input.stream()
                 .map(line -> {
                     List<String> inputValues = parseInputValues(line);
