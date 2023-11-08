@@ -3,10 +3,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AutoService(Puzzle.class)
-public class Day03 implements Puzzle<Long, Long> {
+public class Day03 implements Puzzle {
 
     @Override
-    public Long solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         int arrayLength = input.get(0).length();
         int[] ones = new int[arrayLength];
         int[] zeros = new int[arrayLength];
@@ -25,18 +25,18 @@ public class Day03 implements Puzzle<Long, Long> {
         long gammaRate = Long.parseLong(gammaString.toString(), 2);
         long epsilonRate = Long.parseLong(epsilonString.toString(), 2);
 
-        return gammaRate * epsilonRate;
+        return Long.toString(gammaRate * epsilonRate);
     }
 
 
     @Override
-    public Long solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         String oxyString = determineRating(input, true);
         String co2String = determineRating(input, false);
 
         long oxy = Long.parseLong(oxyString, 2);
         long co2 = Long.parseLong(co2String, 2);
-        return oxy * co2;
+        return Long.toString(oxy * co2);
     }
 
     private static void countBitsInEachString(List<String> input, int[] ones, int[] zeros) {

@@ -4,26 +4,26 @@ import java.util.stream.IntStream;
 import lombok.Value;
 
 @AutoService(Puzzle.class)
-public class Day11 implements Puzzle<Integer, Integer> {
+public class Day11 implements Puzzle {
 
     @Override
-    public Integer solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         FlashMap map = FlashMap.of(input);
-
-        return IntStream.range(0, 100)
+        int sum = IntStream.range(0, 100)
                 .map(i -> map.countFlashesInIteration())
                 .sum();
+        return Integer.toString(sum);
     }
 
     @Override
-    public Integer solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         FlashMap map = FlashMap.of(input);
 
         int allFlashCount = map.height * map.width;
         for (int itCount = 1; itCount < Integer.MAX_VALUE; itCount++) {
             int flashCount = map.countFlashesInIteration();
             if(flashCount == allFlashCount) {
-                return itCount;
+                return Integer.toString(itCount);
             }
         }
         throw new IllegalArgumentException();

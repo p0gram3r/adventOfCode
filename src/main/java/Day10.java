@@ -7,21 +7,22 @@ import java.util.Stack;
 import java.util.stream.Collectors;
 
 @AutoService(Puzzle.class)
-public class Day10 implements Puzzle<Integer, Long> {
+public class Day10 implements Puzzle {
     @Override
-    public Integer solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         return input.stream()
                 .map(NaviSubSystemLine::new)
                 .map(NaviSubSystemLine::firstCorruptedChar)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(Day10::scoreForCorruptedChar)
-                .reduce(0, Integer::sum);
+                .reduce(0, Integer::sum)
+                .toString();
 
     }
 
     @Override
-    public Long solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         List<Long> scores = input.stream()
                 .map(NaviSubSystemLine::new)
                 .filter(NaviSubSystemLine::isNotCorrupt)
@@ -30,7 +31,7 @@ public class Day10 implements Puzzle<Integer, Long> {
                 .sorted(Long::compare)
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        return scores.get(scores.size() / 2);
+        return scores.get(scores.size() / 2).toString();
     }
 
     static int scoreForCorruptedChar(char illegalChar) {

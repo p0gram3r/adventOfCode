@@ -10,18 +10,20 @@ import lombok.Value;
 import lombok.val;
 
 @AutoService(Puzzle.class)
-public class Day12 implements Puzzle<Integer, Integer> {
+public class Day12 implements Puzzle {
 
     @Override
-    public Integer solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         CaveSystem caveSystem = CaveSystem.fromInput(input);
-        return new SingleVisitStrategy().findAllPaths(caveSystem).size();
+        int size = new SingleVisitStrategy().findAllPaths(caveSystem).size();
+        return Integer.toString(size);
     }
 
     @Override
-    public Integer solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         CaveSystem caveSystem = CaveSystem.fromInput(input);
-        return new DoubleVisitStrategy().findAllPaths(caveSystem).size();
+        int size = new DoubleVisitStrategy().findAllPaths(caveSystem).size();
+        return Integer.toString(size);
     }
 
     interface PathFindingStrategy {

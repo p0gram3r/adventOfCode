@@ -11,12 +11,14 @@ import java.util.stream.IntStream;
 import lombok.val;
 
 @AutoService(Puzzle.class)
-public class Day13 implements Puzzle<Integer, String> {
+public class Day13 implements Puzzle {
 
     @Override
-    public Integer solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         Paper paper = parseInput(input);
-        return paper.fold().countVisibleDots();
+        int visibleDots = paper.fold().countVisibleDots();
+
+        return Integer.toString(visibleDots);
     }
 
     @Override

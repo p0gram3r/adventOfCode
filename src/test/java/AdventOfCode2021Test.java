@@ -8,22 +8,23 @@ class AdventOfCode2021Test {
 
     @ParameterizedTest
     @CsvSource({
-            "Day13,      17,           a", // actually a capital o, but solution is hardcoded for this one...
-            "Day12,      10,          36",
-            "Day11,    1656,         195",
-            "Day10,   26397,      288957",
-            "Day09,      15,        1134",
-            "Day08,      26,       61229",
-            "Day07,      37,         168",
-            "Day06,    5934, 26984457539",
-            "Day05,       5,          12",
-            "Day04,    4512,        1924",
-            "Day03,     198,         230",
-            "Day02,     150,         900",
-            "Day01,       7,           5",
+            "Day14,    1588, 2188189693529",
+            "Day13,      17,      ZUJUAFHP", // actually a capital o, but solution is hardcoded for this one...
+            "Day12,      10,            36",
+            "Day11,    1656,           195",
+            "Day10,   26397,        288957",
+            "Day09,      15,          1134",
+            "Day08,      26,         61229",
+            "Day07,      37,           168",
+            "Day06,    5934,   26984457539",
+            "Day05,       5,            12",
+            "Day04,    4512,          1924",
+            "Day03,     198,           230",
+            "Day02,     150,           900",
+            "Day01,       7,             5",
     })
     @SneakyThrows
-    void testPuzzleSolutions(String puzzleName, long solutionA, long solutionB) {
+    void testPuzzleSolutions(String puzzleName, String solutionA, String solutionB) {
         var inputFileName = puzzleName.toLowerCase() + "-test.txt";
         var lines = AdventOfCode2021.getPuzzleInput(inputFileName);
 

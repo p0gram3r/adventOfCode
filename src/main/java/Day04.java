@@ -9,10 +9,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.val;
 
 @AutoService(Puzzle.class)
-public class Day04 implements Puzzle<Long, Long> {
+public class Day04 implements Puzzle {
 
     @Override
-    public Long solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         String numbersDrawn = input.get(0);
         val boards = parseBingoBoards(input);
 
@@ -21,7 +21,8 @@ public class Day04 implements Puzzle<Long, Long> {
             for (Board board : boards) {
                 board.markNumber(number);
                 if (board.boardHasWon()) {
-                    return number * board.sumAllUnmarkedNumbers();
+                    long l = number * board.sumAllUnmarkedNumbers();
+                    return Long.toString(l);
                 }
             }
         }
@@ -30,7 +31,7 @@ public class Day04 implements Puzzle<Long, Long> {
     }
 
     @Override
-    public Long solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         String numbersDrawn = input.get(0);
         val boards = parseBingoBoards(input);
 
@@ -42,7 +43,8 @@ public class Day04 implements Puzzle<Long, Long> {
                     continue;
                 }
                 if (allBoardsHaveWon(boards)) {
-                    return number * board.sumAllUnmarkedNumbers();
+                    long l = number * board.sumAllUnmarkedNumbers();
+                    return Long.toString(l);
                 }
             }
         }

@@ -4,17 +4,19 @@ import java.util.Map;
 import java.util.TreeMap;
 
 @AutoService(Puzzle.class)
-public class Day05 implements Puzzle<Long, Long> {
+public class Day05 implements Puzzle {
     @Override
-    public Long solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         Area area = createArea(input, true);
-        return area.countCrossings();
+        long countCrossings = area.countCrossings();
+        return Long.toString(countCrossings);
     }
 
     @Override
-    public Long solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         Area area = createArea(input, false);
-        return area.countCrossings();
+        long countCrossings = area.countCrossings();
+        return Long.toString(countCrossings);
     }
 
     private static Area createArea(List<String> input, boolean ignoreDiagonalLines) {

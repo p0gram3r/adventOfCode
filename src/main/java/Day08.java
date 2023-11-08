@@ -12,15 +12,16 @@ import lombok.Value;
 import lombok.val;
 
 @AutoService(Puzzle.class)
-public class Day08 implements Puzzle<Long, Long> {
+public class Day08 implements Puzzle {
     @Override
-    public Long solutionA(List<String> input) {
-        return input.stream()
+    public String solutionA(List<String> input) {
+        long count = input.stream()
                 .map(this::parseOutputValues)
                 .flatMap(Collection::stream)
                 .filter(s -> s.length() != 5)
                 .filter(s -> s.length() != 6)
                 .count();
+        return Long.toString(count);
     }
 
     private List<String> parseOutputValues(String line) {
@@ -29,7 +30,7 @@ public class Day08 implements Puzzle<Long, Long> {
     }
 
     @Override
-    public Long solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         return input.stream()
                 .map(line -> {
                     List<String> inputValues = parseInputValues(line);
@@ -42,7 +43,8 @@ public class Day08 implements Puzzle<Long, Long> {
                             .collect(Collectors.joining(""));
                 })
                 .map(Long::parseLong)
-                .reduce(0L, Long::sum);
+                .reduce(0L, Long::sum)
+                .toString();
     }
 
     private Map<Digit, String> deduceDigits(List<String> inputValues) {

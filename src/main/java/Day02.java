@@ -3,10 +3,10 @@ import java.util.List;
 import lombok.val;
 
 @AutoService(Puzzle.class)
-public class Day02 implements Puzzle<Long, Long> {
+public class Day02 implements Puzzle {
 
     @Override
-    public Long solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         long x = 0;
         long y = 0;
         for (String line : input) {
@@ -21,11 +21,11 @@ public class Day02 implements Puzzle<Long, Long> {
             }
         }
 
-        return x * y;
+        return Long.toString(x * y);
     }
 
     @Override
-    public Long solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         long aim = 0;
         long x = 0;
         long y = 0;
@@ -41,6 +41,6 @@ public class Day02 implements Puzzle<Long, Long> {
             }
         }
 
-        return x * y;
+        return Long.toString(x * y);
     }
 }

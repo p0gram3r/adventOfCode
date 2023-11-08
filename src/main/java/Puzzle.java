@@ -1,8 +1,8 @@
 import java.util.List;
 
-public interface Puzzle<T1, T2> {
+public interface Puzzle {
 
-    T1 solutionA(List<String> input);
+    String solutionA(List<String> input);
 
-    T2 solutionB(List<String> input);
+    String solutionB(List<String> input);
 }

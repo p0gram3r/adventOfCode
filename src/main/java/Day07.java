@@ -8,23 +8,25 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @AutoService(Puzzle.class)
-public class Day07 implements Puzzle<Integer, Integer> {
+public class Day07 implements Puzzle {
     @Override
-    public Integer solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         List<Integer> positions = parsePositions(input.get(0));
         ConsumptionTable table = new ConsumptionTable(positions);
 //        System.out.println(table);
 
-        return table.calculateMinFuelForIdealAlignment();
+        int i = table.calculateMinFuelForIdealAlignment();
+        return Integer.toString(i);
     }
 
 
     @Override
-    public Integer solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         List<Integer> positions = parsePositions(input.get(0));
         ConsumptionTable table = new ConsumptionTable(positions, true);
 
-        return table.calculateMinFuelForIdealAlignment();
+        int i = table.calculateMinFuelForIdealAlignment();
+        return Integer.toString(i);
     }
 
     private List<Integer> parsePositions(String input) {

@@ -10,19 +10,20 @@ import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @AutoService(Puzzle.class)
-public class Day09 implements Puzzle<Integer, Integer> {
+public class Day09 implements Puzzle {
     @Override
-    public Integer solutionA(List<String> input) {
+    public String solutionA(List<String> input) {
         HeightMap map = HeightMap.of(input);
 
         return map.coordinateStream()
                 .filter(map::isLowPoint)
                 .map(c -> 1 + map.heightAt(c))
-                .reduce(0, Integer::sum);
+                .reduce(0, Integer::sum)
+                .toString();
     }
 
     @Override
-    public Integer solutionB(List<String> input) {
+    public String solutionB(List<String> input) {
         HeightMap map = HeightMap.of(input);
 
         Collection<Basin> allBasins = new LinkedList<>();
@@ -38,7 +39,8 @@ public class Day09 implements Puzzle<Integer, Integer> {
                 .sorted(reverseSizeComparator)
                 .limit(3)
                 .map(Basin::size)
-                .reduce(1, (l, i) -> l * i);
+                .reduce(1, (l, i) -> l * i)
+                .toString();
     }
 
     private boolean isCoordinatePartOfAnyBasin(Coordinate c, Collection<Basin> allBasins) {
