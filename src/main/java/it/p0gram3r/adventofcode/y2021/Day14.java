@@ -1,6 +1,5 @@
 package it.p0gram3r.adventofcode.y2021;
 
-import com.google.auto.service.AutoService;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicLong;
 import lombok.val;
 
-@AutoService(Puzzle.class)
 public class Day14 implements Puzzle {
 
     @Override
@@ -19,7 +17,8 @@ public class Day14 implements Puzzle {
 
     @Override
     public String solutionB(List<String> input) {
-        return runIterations(input, 40);
+//        return runIterations(input, 40);
+        return "not yet implemented";
     }
 
     private String runIterations(List<String> input, int itCount) {

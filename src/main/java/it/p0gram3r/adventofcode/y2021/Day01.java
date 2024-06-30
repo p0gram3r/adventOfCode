@@ -1,11 +1,9 @@
 package it.p0gram3r.adventofcode.y2021;
 
-import com.google.auto.service.AutoService;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.List;
 import java.util.function.BiFunction;
 
-@AutoService(Puzzle.class)
 public class Day01 implements Puzzle {
 
     @Override

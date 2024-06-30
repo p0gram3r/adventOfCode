@@ -1,12 +1,10 @@
 package it.p0gram3r.adventofcode.y2021;
 
-import com.google.auto.service.AutoService;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-@AutoService(Puzzle.class)
 public class Day05 implements Puzzle {
     @Override
     public String solutionA(List<String> input) {

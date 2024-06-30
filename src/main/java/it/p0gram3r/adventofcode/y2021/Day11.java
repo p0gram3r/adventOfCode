@@ -1,12 +1,10 @@
 package it.p0gram3r.adventofcode.y2021;
 
-import com.google.auto.service.AutoService;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.List;
 import java.util.stream.IntStream;
 import lombok.Value;
 
-@AutoService(Puzzle.class)
 public class Day11 implements Puzzle {
 
     @Override

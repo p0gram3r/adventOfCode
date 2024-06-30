@@ -1,6 +1,5 @@
 package it.p0gram3r.adventofcode.y2021;
 
-import com.google.auto.service.AutoService;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-@AutoService(Puzzle.class)
 public class Day06 implements Puzzle {
 
     @Override

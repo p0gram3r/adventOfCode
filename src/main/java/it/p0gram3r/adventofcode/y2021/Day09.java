@@ -1,6 +1,5 @@
 package it.p0gram3r.adventofcode.y2021;
 
-import com.google.auto.service.AutoService;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.Collection;
 import java.util.Comparator;
@@ -12,7 +11,6 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
-@AutoService(Puzzle.class)
 public class Day09 implements Puzzle {
     @Override
     public String solutionA(List<String> input) {

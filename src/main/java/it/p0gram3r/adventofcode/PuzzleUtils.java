@@ -1,22 +1,37 @@
 package it.p0gram3r.adventofcode;
 
+import com.google.common.reflect.ClassPath;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.ServiceLoader;
-import java.util.stream.Stream;
+import java.util.function.Function;
 import lombok.SneakyThrows;
-import lombok.val;
 
 public class PuzzleUtils {
-    public static Stream<ServiceLoader.Provider<Puzzle>> loadPuzzlesInPackage(Package pack) {
-        val providers = ServiceLoader.load(Puzzle.class);
+    @SneakyThrows
+    public static List<Puzzle> loadPuzzlesInPackage(Package pack) {
+        return ClassPath.from(ClassLoader.getSystemClassLoader())
+                .getAllClasses()
+                .stream()
+                .filter(clazz -> clazz.getPackageName().equalsIgnoreCase(pack.getName()))
+                .map(ClassPath.ClassInfo::load)
+                .filter(Puzzle.class::isAssignableFrom)
+                .sorted(Comparator.comparing((Function<Class<?>, String>) Class::getName))
+                .map(PuzzleUtils::createPuzzleInstance)
+                .toList();
+    }
 
-        return providers.stream()
-                .filter(provider -> Objects.equals(provider.getClass().getPackage(), pack));
+    private static Puzzle createPuzzleInstance(Class<?> clazz) {
+        try {
+            return (Puzzle) clazz.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SneakyThrows

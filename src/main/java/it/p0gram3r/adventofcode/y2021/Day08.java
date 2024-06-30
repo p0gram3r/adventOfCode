@@ -1,6 +1,5 @@
 package it.p0gram3r.adventofcode.y2021;
 
-import com.google.auto.service.AutoService;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,7 +13,6 @@ import java.util.stream.Collectors;
 import lombok.Value;
 import lombok.val;
 
-@AutoService(Puzzle.class)
 public class Day08 implements Puzzle {
     @Override
     public String solutionA(List<String> input) {
