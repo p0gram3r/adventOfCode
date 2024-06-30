@@ -3,6 +3,7 @@ package it.p0gram3r.adventofcode.y2021;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import it.p0gram3r.adventofcode.Puzzle;
+import it.p0gram3r.adventofcode.PuzzleUtils;
 import lombok.SneakyThrows;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -29,7 +30,7 @@ class AdventOfCode2021Test {
     @SneakyThrows
     void testPuzzleSolutions(String puzzleName, String solutionA, String solutionB) {
         var inputFileName = "y2021/" + puzzleName.toLowerCase() + "-test.txt";
-        var input = Puzzle.getPuzzleInput(inputFileName);
+        var input = PuzzleUtils.getPuzzleInput(inputFileName);
 
         puzzleName = getClass().getPackageName() + "." + puzzleName;
 
