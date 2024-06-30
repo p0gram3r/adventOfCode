@@ -3,21 +3,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.p0gram3r.playground</groupId>
-    <artifactId>adventOfCode2021</artifactId>
+    <artifactId>adventOfCode</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <auto-service.version>1.1.1</auto-service.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <version.auto-service>1.1.1</version.auto-service>
+        <version.lombok>1.18.28</version.lombok>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.google.auto.service</groupId>
             <artifactId>auto-service-annotations</artifactId>
-            <version>${auto-service.version}</version>
+            <version>${version.auto-service}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -66,12 +67,12 @@
                         <path>
                             <groupId>com.google.auto.service</groupId>
                             <artifactId>auto-service</artifactId>
-                            <version>${auto-service.version}</version>
+                            <version>${version.auto-service}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.28</version>
+                            <version>${version.lombok}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
