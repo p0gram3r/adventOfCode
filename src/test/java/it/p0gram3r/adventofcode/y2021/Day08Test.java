@@ -1,3 +1,5 @@
+package it.p0gram3r.adventofcode.y2021;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
