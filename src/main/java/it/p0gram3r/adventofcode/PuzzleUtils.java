@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 import lombok.SneakyThrows;
+import lombok.val;
+import org.slf4j.Logger;
 
 public class PuzzleUtils {
     @SneakyThrows
@@ -23,6 +25,18 @@ public class PuzzleUtils {
                 .sorted(Comparator.comparing((Function<Class<?>, String>) Class::getName))
                 .map(PuzzleUtils::createPuzzleInstance)
                 .toList();
+    }
+
+    public static void solvePuzzles(List<Puzzle> puzzles, Logger log) {
+        for (Puzzle puzzle : puzzles) {
+            val inputFileName = PuzzleUtils.guessInputFileName(puzzle);
+            val lines = PuzzleUtils.getPuzzleInput(inputFileName);
+
+            log.info("Puzzle: " + puzzle.getClass().getName());
+            log.info("  solution to part A: {}", puzzle.solutionA(lines));
+            log.info("  solution to part B: {}", puzzle.solutionB(lines));
+            log.info("");
+        }
     }
 
     private static Puzzle createPuzzleInstance(Class<?> clazz) {
