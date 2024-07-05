@@ -12,7 +12,7 @@ class AdventOfCode2021Test {
 
     @ParameterizedTest
     @CsvSource({
-//            "Day14,    1588, 2188189693529",
+            "Day14,    1588, 2188189693529",
             "Day13,      17,      ZUJUAFHP", // actually a capital o, but solution is hardcoded for this one...
             "Day12,      10,            36",
             "Day11,    1656,           195",
