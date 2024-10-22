@@ -12,6 +12,7 @@ class AdventOfCode2021Test {
 
     @ParameterizedTest
     @CsvSource({
+//            "Day18,    4140,           112",
             "Day17,      45,           112",
             "Day16,      31,            54",
 //            "Day15,      40, 0",
