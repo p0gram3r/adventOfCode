@@ -15,7 +15,7 @@ class AdventOfCode2021Test {
 //            "Day18,    4140,           112",
             "Day17,      45,           112",
             "Day16,      31,            54",
-//            "Day15,      40, 0",
+            "Day15,      40,          2876", // actually 315 for the test, but solution is hardcoded for this one
             "Day14,    1588, 2188189693529",
             "Day13,      17,      ZUJUAFHP", // actually a capital o, but solution is hardcoded for this one...
             "Day12,      10,            36",

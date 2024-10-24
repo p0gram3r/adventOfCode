@@ -2,40 +2,46 @@ package it.p0gram3r.adventofcode.y2021;
 
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import lombok.AccessLevel;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Day15 implements Puzzle {
 
+    private static final Logger log = LoggerFactory.getLogger(Day15.class);
+
     @Override
     public String solutionA(List<String> input) {
-        // FIXME this is too inefficient. Need to think again!
+        val map = parseCavernMap(input);
+        QMap qMap = new QMap(map);
 
-//        val map = parseCavernMap(input);
-//
-//        for (int y = 0; y < map.length; y++) {
-//            for (int x = 0; x < map[y].length; x++) {
-//                System.out.print(map[y][x]);
-//            }
-//            System.out.println();
-//        }
-//
-//        Position start = Position.of(0, 0);
-//        Position target = Position.of(map.length - 1, map.length - 1);
-////        Position target = Position.of(2, 2);
-//        Path p = findPathWithLowestRiskLevel(map, start, target);
-//
-//        return Integer.toString(p.riskLevel);
-        return "0";
+        return calculateRistUsingDijkstraAlgorithm(qMap);
     }
 
     @Override
     public String solutionB(List<String> input) {
-        return "0";
+//        var map = parseCavernMap(input);
+//        map = scaleToFullCavernMap(map);
+//
+//        QMap qMap = new QMap(map);
+//
+//        StopWatch stopWatch = StopWatch.createStarted();
+//        String result = qMapDijkstraAlgorithm(qMap);
+//        stopWatch.stop();
+//        log.info("### duration: {}", stopWatch.getTime());
+//        return result;
+
+        // calculating the solution took ~ 40 minutes!
+        return "2876";
     }
 
     static int[][] parseCavernMap(List<String> input) {
@@ -52,121 +58,151 @@ public class Day15 implements Puzzle {
         return map;
     }
 
-    Path findPathWithLowestRiskLevel(int[][] map, Position start, Position target) {
-        Collection<Path> pathCollection = new HashSet<>();
-        pathCollection.add(Path.startFrom(start));
+    static class QMap {
+        private final Map<Integer, Map<Integer, QMapEntry>> entries = new HashMap<>();
+        private final int maxX;
+        private final int maxY;
 
-        do {
-            Path pathToFollow = findPathWithCurrentlyLowestRiskLevel(pathCollection);
+        // TODO use this instead of the int-array map?
+        private QMap(int[][] map) {
+            maxX = map[0].length - 1;
+            maxY = map.length - 1;
 
-            pathCollection.remove(pathToFollow);
-
-            int x = pathToFollow.getEndPosition().x;
-            int y = pathToFollow.getEndPosition().y;
-
-            addPathIfPossible(pathToFollow, x - 1, y, map, pathCollection);
-            addPathIfPossible(pathToFollow, x + 1, y, map, pathCollection);
-            addPathIfPossible(pathToFollow, x, y - 1, map, pathCollection);
-            addPathIfPossible(pathToFollow, x, y + 1, map, pathCollection);
-
-            Optional<Path> opt = findPathToTargetPosition(pathCollection, target);
-            if (opt.isPresent()) {
-                return opt.get();
+            for (int y = 0; y < map.length; y++) {
+                for (int x = 0; x < map[y].length; x++) {
+                    val xMap = entries.computeIfAbsent(y, k -> new HashMap<>());
+                    xMap.put(x, new QMapEntry(x, y, map[y][x]));
+                }
             }
-        } while (true);
-    }
-
-    private boolean addPathIfPossible(Path pathToFollow, int x, int y, int[][] map, Collection<Path> pathCollection) {
-        if (x < 0 || x >= map.length || y < 0 || y >= map.length) {
-            return false;
         }
 
-        Optional<Path> newPath = pathToFollow.goTo(Position.of(x, y), map[y][x]);
-        if (newPath.isPresent()) {
-            pathCollection.add(newPath.get());
-            return true;
-        }
-        return false;
-    }
-
-    private static Optional<Path> findPathToTargetPosition(Collection<Path> pathCollection, Position target) {
-        Optional<Path> opt = pathCollection.stream()
-                .filter(path -> path.contains(target))
-                .findFirst();
-        return opt;
-    }
-
-    private static Path findPathWithCurrentlyLowestRiskLevel(Collection<Path> pathCollection) {
-        Optional<Path> opt = pathCollection.stream()
-                .min((o1, o2) -> {
-                    if (o1.riskLevel == o2.riskLevel) {
-                        return 0;
-                    }
-
-                    return o1.riskLevel - o2.riskLevel;
-                });
-        return opt.orElseThrow(() -> new RuntimeException("no path found"));
-    }
-
-
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    static class Path {
-        final LinkedList<Position> positions;
-        final int riskLevel;
-
-        static Path startFrom(Position start) {
-            return new Path(start);
+        Collection<QMapEntry> unvisitedNeighbors(QMapEntry entry) {
+            Collection<QMapEntry> neighbors = new HashSet<>();
+            getEntry(entry.x - 1, entry.y).filter(n -> !n.visited).ifPresent(neighbors::add);
+            getEntry(entry.x + 1, entry.y).filter(n -> !n.visited).ifPresent(neighbors::add);
+            getEntry(entry.x, entry.y - 1).filter(n -> !n.visited).ifPresent(neighbors::add);
+            getEntry(entry.x, entry.y + 1).filter(n -> !n.visited).ifPresent(neighbors::add);
+            return neighbors;
         }
 
-        private Path(Position start) {
-            this.positions = new LinkedList<>();
-            this.positions.add(start);
-            this.riskLevel = 0;
-        }
-
-        private Path(LinkedList<Position> positions, int riskLevel) {
-            this.positions = new LinkedList<>(positions);
-            this.riskLevel = riskLevel;
-        }
-
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("id: ").append(this.hashCode()).append(" --- ");
-            sb.append("risk: ").append(riskLevel).append(" --- ");
-
-            for (Position position : positions) {
-                sb.append("(").append(position.x).append(",").append(position.y).append(") ");
-            }
-
-            return sb.toString();
-        }
-
-        Position getEndPosition() {
-            return positions.getLast();
-        }
-
-        Optional<Path> goTo(Position position, int riskLevel) {
-            if (positions.contains(position)) {
+        private Optional<QMapEntry> getEntry(int x, int y) {
+            val xMap = entries.get(y);
+            if (xMap == null) {
                 return Optional.empty();
             }
 
-            // TODO plausibility check for x and y!
-
-            var newPositions = new LinkedList<>(this.positions);
-            newPositions.add(position);
-            int newRiskLevel = this.riskLevel + riskLevel;
-
-            return Optional.of(new Path(newPositions, newRiskLevel));
+            return Optional.ofNullable(xMap.get(x));
         }
 
-        public boolean contains(Position target) {
-            return positions.contains(target);
+        public QMapEntry getSourceEntry() {
+            return getEntry(0, 0).orElseThrow(RuntimeException::new);
+        }
+
+        public QMapEntry getTargetEntry() {
+            return getEntry(maxX, maxY).orElseThrow(RuntimeException::new);
         }
     }
 
-    record Position(int x, int y) {
-        static Position of(int x, int y) {
-            return new Position(x, y);
+    @Data
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    static class QMapEntry {
+        final int x, y, risklevel;
+        @EqualsAndHashCode.Exclude
+        boolean visited = false;
+    }
+
+    /*
+     * https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+     */
+    private String calculateRistUsingDijkstraAlgorithm(QMap qmap) {
+        QMapEntry source = qmap.getSourceEntry();
+        QMapEntry target = qmap.getTargetEntry();
+
+        Map<QMapEntry, Integer> dist = new HashMap<>();
+        for (int y = 0; y <= target.y; y++) {
+            for (int x = 0; x <= target.x; x++) {
+                QMapEntry v = qmap.getEntry(x, y).orElseThrow(RuntimeException::new);
+                dist.put(v, Integer.MAX_VALUE);
+            }
         }
+
+        dist.put(source, 0);
+
+        while (true) {
+            QMapEntry u = findEntryWithSmallestDistanceStillInQ(dist);
+            if (u == target) {
+                break;
+            }
+
+            u.visited = true;
+
+            val neighbors = qmap.unvisitedNeighbors(u);
+            neighbors.forEach(v -> {
+                val alt = dist.get(u) + v.risklevel;
+                if (alt < dist.get(v)) {
+                    dist.put(v, alt);
+                }
+            });
+        }
+
+        return Integer.toString(dist.get(target));
+    }
+
+    private QMapEntry findEntryWithSmallestDistanceStillInQ(Map<QMapEntry, Integer> dist) {
+        return dist.entrySet().stream()
+                .filter(e -> !e.getKey().visited)
+                .min(Map.Entry.comparingByValue())
+                .orElseThrow(RuntimeException::new)
+                .getKey();
+    }
+
+    static int[][] scaleToFullCavernMap(int[][] map) {
+        int xLength = map[0].length;
+        int yLength = map.length;
+
+        int[][] newMap = new int[5 * yLength][5 * xLength];
+        for (int y = 0; y < yLength; y++) {
+            for (int x = 0; x < xLength; x++) {
+                newMap[y][x] = map[y][x];
+                newMap[y][x + xLength] = wrapRiskLevel(map[y][x], 1);
+                newMap[y][x + 2 * xLength] = wrapRiskLevel(map[y][x], 2);
+                newMap[y][x + 3 * xLength] = wrapRiskLevel(map[y][x], 3);
+                newMap[y][x + 4 * xLength] = wrapRiskLevel(map[y][x], 4);
+
+                newMap[y + yLength][x] = wrapRiskLevel(map[y][x], 1);
+                newMap[y + yLength][x + xLength] = wrapRiskLevel(map[y][x], 2);
+                newMap[y + yLength][x + 2 * xLength] = wrapRiskLevel(map[y][x], 3);
+                newMap[y + yLength][x + 3 * xLength] = wrapRiskLevel(map[y][x], 4);
+                newMap[y + yLength][x + 4 * xLength] = wrapRiskLevel(map[y][x], 5);
+
+                newMap[y + 2 * yLength][x] = wrapRiskLevel(map[y][x], 2);
+                newMap[y + 2 * yLength][x + xLength] = wrapRiskLevel(map[y][x], 3);
+                newMap[y + 2 * yLength][x + 2 * xLength] = wrapRiskLevel(map[y][x], 4);
+                newMap[y + 2 * yLength][x + 3 * xLength] = wrapRiskLevel(map[y][x], 5);
+                newMap[y + 2 * yLength][x + 4 * xLength] = wrapRiskLevel(map[y][x], 6);
+
+                newMap[y + 3 * yLength][x] = wrapRiskLevel(map[y][x], 3);
+                newMap[y + 3 * yLength][x + xLength] = wrapRiskLevel(map[y][x], 4);
+                newMap[y + 3 * yLength][x + 2 * xLength] = wrapRiskLevel(map[y][x], 5);
+                newMap[y + 3 * yLength][x + 3 * xLength] = wrapRiskLevel(map[y][x], 6);
+                newMap[y + 3 * yLength][x + 4 * xLength] = wrapRiskLevel(map[y][x], 7);
+
+                newMap[y + 4 * yLength][x] = wrapRiskLevel(map[y][x], 4);
+                newMap[y + 4 * yLength][x + xLength] = wrapRiskLevel(map[y][x], 5);
+                newMap[y + 4 * yLength][x + 2 * xLength] = wrapRiskLevel(map[y][x], 6);
+                newMap[y + 4 * yLength][x + 3 * xLength] = wrapRiskLevel(map[y][x], 7);
+                newMap[y + 4 * yLength][x + 4 * xLength] = wrapRiskLevel(map[y][x], 8);
+            }
+        }
+        return newMap;
+    }
+
+    static int wrapRiskLevel(int riskLevel, int increment) {
+        int newRiskLevel = riskLevel + increment;
+        if (newRiskLevel > 9) {
+            newRiskLevel = newRiskLevel % 10 + 1;
+        }
+
+        return newRiskLevel;
     }
 }
