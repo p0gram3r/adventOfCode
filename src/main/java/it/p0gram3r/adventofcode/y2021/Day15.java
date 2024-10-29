@@ -3,6 +3,7 @@ package it.p0gram3r.adventofcode.y2021;
 import it.p0gram3r.adventofcode.Puzzle;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,18 +13,14 @@ import java.util.TreeMap;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /*
- * This solution uses a slightly modified version of the Dijkstra algorithm.
+ * This solution uses a slightly modified version of the Dijkstra algorithm. Not optimized, but fast enough :)
  *
  * - https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
  * - https://www.baeldung.com/java-dijkstra
  */
 public class Day15 implements Puzzle {
-
-    private static final Logger log = LoggerFactory.getLogger(Day15.class);
 
     @Override
     public String solutionA(List<String> input) {
@@ -35,7 +32,7 @@ public class Day15 implements Puzzle {
     public String solutionB(List<String> input) {
         var map = parseCavernMap(input);
         map = scaleToFullCavernMap(map);
-        // solution for B: "2876";
+
         return solvePuzzle(map);
     }
 
@@ -49,7 +46,7 @@ public class Day15 implements Puzzle {
         int maxY = map.length - 1;
         var targetNode = graph.nodeAtPosition(maxX, maxY);
 
-        return Integer.toString(targetNode.getLowestRiskLevel());
+        return Integer.toString(targetNode.getPathRisk());
     }
 
     @Value
@@ -70,12 +67,12 @@ public class Day15 implements Puzzle {
     }
 
     @Data
-    static class Node {
-        final int x, y, risk;
+    static class Node implements Comparable<Node> {
+        final int x, y, nodeRisk;
         @EqualsAndHashCode.Exclude
         List<Node> pathWithLowestRisk = new LinkedList<>();
         @EqualsAndHashCode.Exclude
-        int lowestRiskLevel = Integer.MAX_VALUE;
+        int pathRisk = Integer.MAX_VALUE;
         @EqualsAndHashCode.Exclude
         Collection<Node> adjacentNodes = new ArrayList<>();
 
@@ -83,19 +80,18 @@ public class Day15 implements Puzzle {
             adjacentNodes.add(destination);
         }
 
-        public Node(int x, int y, int risk) {
-            this.x = x;
-            this.y = y;
-            this.risk = risk;
+        public String toString() {
+            return x + " / " + y + " (" + nodeRisk + "/" + pathRisk + ")";
         }
 
-        public String toString() {
-            return x + " / " + y + " (" + risk + ")";
+        @Override
+        public int compareTo(Node o) {
+            return pathRisk - o.pathRisk;
         }
     }
 
     static void calculatePathsWithLowestRiskFrom(Node source) {
-        source.setLowestRiskLevel(0);
+        source.setPathRisk(0);
 
         Set<Node> settledNodes = new HashSet<>();
         Set<Node> unsettledNodes = new HashSet<>();
@@ -103,8 +99,9 @@ public class Day15 implements Puzzle {
         unsettledNodes.add(source);
 
         while (!unsettledNodes.isEmpty()) {
-            Node currentNode = getLowestDistanceNode(unsettledNodes);
+            Node currentNode = findNodeWithLowestPathRisk(unsettledNodes);
             unsettledNodes.remove(currentNode);
+
             for (Node adjacentNode : currentNode.getAdjacentNodes()) {
                 if (!settledNodes.contains(adjacentNode)) {
                     calculateMinimumRisk(adjacentNode, currentNode);
@@ -115,28 +112,19 @@ public class Day15 implements Puzzle {
         }
     }
 
-    private static Node getLowestDistanceNode(Set<Node> unsettledNodes) {
-        Node lowestDistanceNode = null;
-        int lowestDistance = Integer.MAX_VALUE;
-        for (Node node : unsettledNodes) {
-            int nodeDistance = node.getLowestRiskLevel();
-            if (nodeDistance < lowestDistance) {
-                lowestDistance = nodeDistance;
-                lowestDistanceNode = node;
-            }
-        }
-        return lowestDistanceNode;
+    private static Node findNodeWithLowestPathRisk(Set<Node> unsettledNodes) {
+        return unsettledNodes
+                .stream()
+                .min(Comparator.comparingInt(n -> n.pathRisk))
+                .orElseThrow(RuntimeException::new);
     }
 
-    // TODO
-    // TODO
-    // TODO
     private static void calculateMinimumRisk(Node evaluationNode, Node sourceNode) {
-        int sourceRiskLevel = sourceNode.getLowestRiskLevel();
+        int sourceRiskLevel = sourceNode.getPathRisk();
 
-        int pathRiskLevel = sourceRiskLevel + evaluationNode.risk;
-        if (pathRiskLevel < evaluationNode.getLowestRiskLevel()) {
-            evaluationNode.setLowestRiskLevel(pathRiskLevel);
+        int pathRiskLevel = sourceRiskLevel + evaluationNode.nodeRisk;
+        if (pathRiskLevel < evaluationNode.getPathRisk()) {
+            evaluationNode.setPathRisk(pathRiskLevel);
             LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getPathWithLowestRisk());
             shortestPath.add(sourceNode);
             evaluationNode.setPathWithLowestRisk(shortestPath);
@@ -148,7 +136,6 @@ public class Day15 implements Puzzle {
 
         int xLength = map[0].length;
         int yLength = map.length;
-
 
         Map<Integer, Map<Integer, Node>> adjacentNodes = new TreeMap<>();
         for (int y = 0; y < yLength; y++) {
